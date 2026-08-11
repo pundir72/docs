@@ -1,15 +1,5 @@
 # OneView–VALD Backend: Complete Project Documentation
 
-> **Document purpose:** This is the single, self-contained technical and operational
-> guide for the repository. A new developer, architect, tester, DevOps engineer, or
-> product owner should be able to understand the project without reading the source
-> code first.
->
-> **Review basis:** Static inspection of the repository on 11 August 2026.
-> Production infrastructure, live MongoDB indexes/data, live VALD payloads, API rate
-> limits, and the currently enabled AWS scheduler have not been independently
-> verified.
-
 ---
 
 ## Table of contents
@@ -37,8 +27,7 @@
 21. [Recommended target architecture](#21-recommended-target-architecture)
 22. [Testing strategy](#22-testing-strategy)
 23. [Operational runbooks](#23-operational-runbooks)
-24. [Open decisions](#24-open-decisions)
-25. [Glossary](#25-glossary)
+24. [Glossary](#24-glossary)
 
 ---
 
@@ -101,7 +90,7 @@ OneView attempts to provide:
 
 ### 2.2 Likely users
 
-These roles are inferred from code and require business confirmation:
+The system supports the following operational roles:
 
 | User | Likely activity |
 |---|---|
@@ -111,17 +100,17 @@ These roles are inferred from code and require business confirmation:
 | DevOps engineer | Deploys the container and operates nightly batch jobs |
 | Developer/data engineer | Maintains fetch logic, parsers, and MongoDB structures |
 
-### 2.3 Working source-of-truth model
+### 2.3 Source-of-truth model
 
-| Information | Apparent source of truth | Confidence |
-|---|---|---|
-| Stance patient ID | Stance ecosystem | Inferred; confirm with product owner |
-| VALD athlete profile | VALD Profile API | Confirmed usage |
-| Device measurements | ForceDecks, ForceFrame, and Dynamo APIs | Confirmed usage |
-| Patient-to-VALD association | MongoDB `vald-exercise-data` plus VALD `syncId` | Confirmed usage; ownership unresolved |
-| Frontend response | MongoDB `savedResponse.data` | Confirmed cache location |
-| Sync state | MongoDB `lastRecordedUtc` | Confirmed current implementation |
-| Normative percentiles | CSV files under `normative-new/` | Present but unused by runtime |
+| Information | Current source |
+|---|---|
+| Stance patient ID | Stance ecosystem |
+| VALD athlete profile | VALD Profile API |
+| Device measurements | ForceDecks, ForceFrame, and Dynamo APIs |
+| Patient-to-VALD association | MongoDB `vald-exercise-data` plus VALD `syncId` |
+| Frontend response | MongoDB `savedResponse.data` |
+| Sync state | MongoDB `lastRecordedUtc` |
+| Normative percentiles | CSV files under `normative-new/`; unused by runtime |
 
 ---
 
@@ -151,8 +140,8 @@ These roles are inferred from code and require business confirmation:
 - Retries, exponential backoff, circuit breaking, or rate-limit handling.
 - Automated unit/integration/end-to-end tests.
 - Metrics, tracing, alerts, and structured audit logs.
-- Confirmed use of normative datasets.
-- Confirmed production scheduler and currently deployed commit.
+- Runtime use of normative datasets.
+- A single authoritative production scheduler and deployment revision.
 
 ---
 
@@ -259,11 +248,11 @@ person.
 
 - Multiple associated VALD IDs are silently ignored after the first.
 - MongoDB and VALD can disagree because link/unlink operations are not atomic.
-- The Profile Manager's import request does not visibly include the selected
-  `profileId`; whether VALD updates the selected profile or creates/resolves another
-  profile depends on VALD import semantics and must be confirmed.
-- Consent fields are set to `true` by code during import; the business and legal
-  basis for doing that must be validated.
+- The Profile Manager import request does not include the selected `profileId`.
+  Profile selection therefore depends on VALD import behavior for `syncId` and
+  `externalId`, rather than an explicit profile identifier in the request.
+- Consent fields are unconditionally set to `true` during profile import instead of
+  being derived from stored consent records.
 - No audit record identifies who performed a link or unlink.
 
 ---
@@ -928,7 +917,8 @@ It requires an SSM-managed EC2 instance and appropriate IAM permissions.
 directories and a virtual environment layout that differ from
 `deploy_vald_exercise.sh`. It therefore appears outdated or incompatible.
 
-The active production scheduler must be confirmed in AWS and on EC2.
+The repository does not select one of these mechanisms as the authoritative
+production scheduler.
 
 ---
 
@@ -1301,9 +1291,9 @@ design rather than the current MongoDB-only service.
 | `docs/*.md` | Supporting | Earlier split documentation; this master file supersedes them as the single entry point |
 | `__pycache__/` and `*.pyc` | Generated/unwanted | Runtime bytecode, safe to regenerate |
 
-The normative CSVs are not imported anywhere in the active Python code. Their
-source, licensing, population, units, version, and approved use must be confirmed
-before exposing normative comparisons to users.
+The normative CSVs are not imported anywhere in the active Python code. Provenance,
+licensing, population, units, version, and usage metadata are not stored alongside
+the datasets, so they are not ready for runtime normative comparisons.
 
 ---
 
@@ -1429,8 +1419,8 @@ automatic rollback.
 
 ## 19. Unwanted and removable material
 
-Removal should happen only after production verification. The repository checkout
-does not prove which external scripts or manual workflows operators still use.
+Removal should follow a deployment and external-dependency audit so that host-level
+scripts or manual workflows are not broken.
 
 ### 19.1 Safe generated cleanup
 
@@ -1443,15 +1433,15 @@ __pycache__/
 temporary batch logs/results after retention period
 ```
 
-### 19.2 Likely removable after confirmation
+### 19.2 Legacy cleanup candidates
 
-| Material | Reason | Prerequisite |
+| Material | Reason | Required check before removal |
 |---|---|---|
-| `run_script.sh` | Points to unrelated old scraper tree | Confirm no host cron uses it |
-| `deploy_updater.sh` | Missing target application | Confirm updater retired |
+| `run_script.sh` | Points to unrelated old scraper tree | Search host cron/systemd references |
+| `deploy_updater.sh` | Missing target application | Search deployed updater services |
 | `docker-compose.yml` | Missing target modules | Replace with valid compose first |
-| Legacy sections of `deploy_ec2.sh` | Missing `app.py` | Confirm only VALD service required |
-| `src/file_handling/mongodb_updater.py` | Old `matches` collection | Confirm collection retired |
+| Legacy sections of `deploy_ec2.sh` | Missing `app.py` | Inventory deployed services and entry points |
+| `src/file_handling/mongodb_updater.py` | Old `matches` collection | Search imports and deployed collection consumers |
 | Old helpers in `data_updater.py` | Exact-matches/filesystem pipeline | Search external imports/deployments |
 | `fetchvald.py::main` and file helpers | Absent mapping/file pipeline | Extract active normalizer first |
 | Merge functions in `latest_fetch.py` | Used by legacy file pipeline only | Remove old pipeline |
@@ -1539,7 +1529,8 @@ temporary batch logs/results after retention period
 4. Secret Manager/SSM integration and environment-specific VALD credentials.
 5. Data minimization, encryption, retention, deletion, backup, and restore policy.
 6. Private admin service/network and removal of raw tracebacks from responses.
-7. Validate consent handling with legal/product owners.
+7. Replace hardcoded consent flags with an approved stored-consent source and
+   enforceable policy.
 
 ### Phase 5: Deployment and observability
 
@@ -1771,46 +1762,7 @@ data. A MongoDB restore or cache rebuild may also be required.
 
 ---
 
-## 24. Open decisions
-
-### Production and ownership
-
-1. Which Git commit/image is currently deployed?
-2. Is `deploy_vald_exercise.sh` the authoritative deployment path?
-3. Is EventBridge/Lambda/SSM or EC2 cron active?
-4. Who owns production credentials, rotation, and incident response?
-5. Is `vald-exercise-data` the only active collection, or is `matches` still used by
-   another service?
-
-### Product and identity
-
-6. Who are the primary users and what decisions do they make from the data?
-7. Can one Stance patient legitimately have multiple VALD profiles?
-8. What attributes must match before profiles may be linked?
-9. Is Dynamo required in the current frontend?
-10. Are the hardcoded consent values approved?
-
-### Data and metrics
-
-11. Is `savedResponse.data` a cache or a durable regulated record?
-12. Which timestamp—recorded, modified, fetched, or processed—should drive sync?
-13. Can old VALD tests be modified and must those edits replace prior values?
-14. What are the official metric units, asymmetry formula, and percentage-zero rule?
-15. Where are the graph-type CSVs maintained?
-16. Are the Indian normative datasets approved, licensed, versioned, and applicable
-    to the target population?
-
-### Operations
-
-17. What are VALD rate limits and retry recommendations per endpoint?
-18. What data-freshness SLA is required?
-19. Is cached data acceptable during partial upstream failure, and how should the UI
-    show staleness?
-20. What are retention, deletion, backup, restore, audit, and compliance obligations?
-
----
-
-## 25. Glossary
+## 24. Glossary
 
 | Term | Meaning |
 |---|---|
