@@ -64,6 +64,20 @@ flowchart LR
 - The cost ledger stores execution metadata without copying patient payloads.
 - Development uses separate output collections and has automatic scheduling disabled by default.
 
+## Implemented improvements
+
+- Moved runtime credentials and deployment settings into environment configuration; removed static credential references from active deployment configuration.
+- Added authenticated internal API calls between the orchestrator and generation services.
+- Added durable MongoDB-backed jobs with idempotency keys, leases, retries, cancellation, and restart recovery.
+- Added separate completion and freshness tracking for summary and phase outputs.
+- Prevented duplicate input-change events and duplicate patient dispatches.
+- Added summary and phase output upserts so each patient keeps one current output document per type.
+- Added an execution ledger and daily cost reporting for generation runs.
+- Reduced duplicate AI input and improved handling of hierarchical VALD timeline data.
+- Added validation for phase-report parsing and generated output structures.
+- Added Gemini request deadlines, full-job deadlines, retryable fallback models, including provider cancellation recovery.
+- Added a complete isolated dev stack with the orchestrator, manual-only scheduling, and dev-only output collections.
+
 ## Five-minute demo
 
 1. Show the running containers:
