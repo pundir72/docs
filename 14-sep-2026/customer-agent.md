@@ -291,3 +291,34 @@ lazy: the dashboard calls it; it is not automatically invoked by the interview.
 > MongoDB. Reports follow a validated S3 and durable Bedrock-processing flow. A
 > separate context-layer can later read the completed intake and recommend
 > objective assessment tests when requested by the clinician dashboard.
+
+
+
+Implemented work:
+- Refactored and organized backend architecture.
+- Added separate form attempt IDs to prevent overwriting previous assessments.
+- Added draft, in_progress, and completed form states.
+- Protected completed forms from automatic draft cleanup.
+- Fixed incorrect patient form update/delete queries.
+- Fixed duplicate answers and WebSocket reconnection/resource leaks.
+- Added per-connection patient session state.
+- Added microphone duration and audio-size limits.
+- Added secure PDF/image upload validation and limits.
+- Added durable report processing with retries and recovery.
+- Centralized Gemini model configuration and removed retired models.
+- Reduced unnecessary AI calls and improved processing performance.
+- Added AI usage, latency and estimated-cost monitoring.
+- Removed patient information from standard application logs.
+- Added deterministic clinical emergency escalation handling.
+- Fixed MongoDB TLS certificate validation.
+- Improved PROM question identity, metadata and structured answers.
+- Fixed repeated questions and incorrect correction detection.
+- Fixed transcription system-prompt leakage with multiple safety barriers.
+- Added frontend WebSocket cleanup and duplicate-submission prevention.
+- Fixed frontend TypeScript, ESLint and vulnerable dependencies.
+- Added isolated Docker configurations for backend and frontend development.
+- Reduced backend Docker image size.
+- Removed generated files, obsolete scripts and unnecessary repository artifacts.
+- Added local-development, API, deployment and project-flow documentation.
+- Added comprehensive regression tests for security, forms, audio, uploads, reports, PROMs, clinical escalation and WebSockets.
+- Added the separate context-layer assessment-test recommendation service.
