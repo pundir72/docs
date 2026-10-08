@@ -83,6 +83,3 @@ This compares measurement dates with report update dates, not sync time or age r
 | Summary | 4 | 0.1% |
 | Phase analysis | 0 | 0.0% |
 
-Yesterday means 00:00–24:00 IST. Counts use earliest retained creation timestamps for currently active patients, not latest update timestamps. **Exact lifetime first-ever generation remains unverified** where earlier records may have been deleted or migrated. First VALD measurement sync counts are unavailable.
-
-*Based on the supplied 8 October snapshot. Missing outputs do not automatically indicate failures. Percentages may not sum to 100% because of rounding.*
