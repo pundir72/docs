@@ -81,13 +81,3 @@ A profile mapping does not confirm that measurements have synced.
 | Summary | 4 | 0.1% |
 | Phase analysis | 0 | 0.0% |
 
-Counts cover 7 October, 00:00 IST to 8 October, 00:00 IST, using the earliest retained creation timestamps for currently active patients. They are not verified lifetime first-ever generations where older records may have been deleted or migrated.
-
-## Pending Validation
-
-| Item | Status |
-|---|---|
-| VALD freshness | Withheld pending reconciliation with the existing Slack report's population and date fields |
-| First VALD measurement sync yesterday | Not available |
-
-Figures reflect the stated snapshot. Missing data does not automatically indicate a service failure. Percentages may not total 100% due to rounding.
