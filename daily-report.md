@@ -1,15 +1,20 @@
 # Stance Daily Report
 
-Includes patient accounts with `isActive = true`. Percentages are based on all 7,810 active patients.
+**9 October 2026, 4:25 PM IST**  
+**Active patients: 7,863**
+
+Includes patient accounts with `isActive = true`. All percentages use 7,863 active patients. Figures reflect the supplied 16:25:33 IST snapshot.
 
 ## Overall Coverage
 
 | Service | Have data | % | Missing data | % |
 |---|---:|---:|---:|---:|
-| Prognosis | 4,578 | 58.6% | 3,232 | 41.4% |
-| Summary | 3,317 | 42.5% | 4,493 | 57.5% |
-| Phase analysis | 1,704 | 21.8% | 6,106 | 78.2% |
-| VALD measurements | 3,789 | 48.5% | 4,021 | 51.5% |
+| Prognosis | 4,589 | 58.4% | 3,274 | 41.6% |
+| Summary | 3,323 | 42.3% | 4,540 | 57.7% |
+| Phase analysis | 3,555 | 45.2% | 4,308 | 54.8% |
+| VALD measurements | 3,793 | 48.2% | 4,070 | 51.8% |
+
+Phase coverage uses the production collection, `new-patient-phases`.
 
 ## Prognosis
 
@@ -17,67 +22,58 @@ A complete first assessment contains chief complaint, clinical history, subjecti
 
 | Category | Patients | % |
 |---|---:|---:|
-| Complete assessment; prognosis generated | 3,126 | 40.0% |
+| Complete assessment; prognosis generated | 3,137 | 39.9% |
 | Complete assessment; prognosis missing | 46 | 0.6% |
-| Assessment absent, empty, or incomplete | 4,638 | 59.4% |
-| **Total** | **7,810** | **100%** |
+| Assessment absent, empty, or incomplete | 4,680 | 59.5% |
+| **Total** | **7,863** | **100%** |
 
 Of the 46 patients with a complete assessment but no prognosis, 7 have multiple first assessments and 39 have no confirmed execution status.
 
-The 4,638 patients without a complete assessment include 1,452 with saved prognosis. These are included in the overall prognosis count of 4,578.
+The 4,680 patients without a complete assessment include 1,452 with saved prognosis. These are included in the overall prognosis count of 4,589.
 
-## Summary and Phase Analysis
-
-Automatic enrollment covers seven configured centers. Scheduling uses 5 queued report references, 5 queued VALD references, or the 15-day fallback with recorded activity.
+## Summary and Phase — Confirmed Generation Conditions
 
 | Category | Summary | % | Phase | % |
 |---|---:|---:|---:|---:|
-| Generated data exists | 3,317 | 42.5% | 1,704 | 21.8% |
-| Missing; queued and not yet due | 310 | 4.0% | 1,286 | 16.5% |
-| Missing; configured-center appointment exists, but no queue record | 1,804 | 23.1% | 2,431 | 31.1% |
-| Missing; no configured-center appointment or queue record | 2,379 | 30.5% | 2,389 | 30.6% |
-| **Total** | **7,810** | **100%** | **7,810** | **100%** |
+| Generation condition met; output generated | 22 | 0.3% | 22 | 0.3% |
+| Generation condition met; output missing | 3 | 0.0% | 3 | 0.0% |
 
-For patients without a queue record, generation eligibility and the reason for missing enrollment are not established. Queue thresholds do not represent lifetime attended sessions.
+**Partial history: these are confirmed minimum counts, not totals for all historically eligible patients.** Qualification is based on retained queue and dispatch evidence for the report/VALD thresholds or fallback. Saved output is checked separately and may predate the qualifying event. Three patients represent 0.038% of active patients, displayed as 0.0% after rounding.
 
 ## VALD Connection
 
 | Category | Patients | % |
 |---|---:|---:|
-| Valid profile mapping | 6,638 | 85.0% |
-| Not mapped | 1,172 | 15.0% |
-| **Total** | **7,810** | **100%** |
+| Valid profile mapping | 6,656 | 84.6% |
+| Not mapped | 1,207 | 15.4% |
+| **Total** | **7,863** | **100%** |
 
 ## VALD Measurements
 
 | Category | Patients | % |
 |---|---:|---:|
-| Saved measurements exist | 3,789 | 48.5% |
-| Mapped; no saved measurements; reason unknown | 2,849 | 36.5% |
-| No sync record or mapping found | 1,113 | 14.3% |
-| Mapping missing or invalid; no saved measurements | 59 | 0.8% |
-| **Total** | **7,810** | **100%** |
+| Saved measurements exist | 3,793 | 48.2% |
+| Mapped; no saved measurements; reason unknown | 2,863 | 36.4% |
+| **Total for these two categories** | **6,656** | **84.6%** |
 
-A profile mapping does not confirm that measurements have synced.
+The subtotal covers only the two categories shown. Overall missing-measurement coverage is shown in the first table.
 
-## VALD Force Changes Across Dates
-
-| Category | Patients | % |
-|---|---:|---:|
-| Increases only, with or without unchanged values | 248 | 3.2% |
-| Decreases only, with or without unchanged values | 24 | 0.3% |
-| Mixed increases and decreases | 457 | 5.9% |
-| Measurements exist; no supported comparison | 3,060 | 39.2% |
-| No measurements | 4,021 | 51.5% |
-| **Total** | **7,810** | **100%** |
-
-729 patients have supported comparisons of positive average or maximum force in newtons across different IST dates, matching product, exercise, movement, metric, and side. Differing same-day attempts are excluded. These are numeric changes; clinical improvement requires clinician review.
-
-## Yesterday — 7 October 2026, IST
+## Yesterday — 8 October 2026, IST
 
 | Service | Patients with first creation recorded | % |
 |---|---:|---:|
-| Prognosis | 14 | 0.2% |
-| Summary | 4 | 0.1% |
-| Phase analysis | 0 | 0.0% |
+| Prognosis | 4 | 0.1% |
+| Summary | 8 | 0.1% |
+| Phase analysis | 13 | 0.2% |
 
+Counts cover 8 October, 00:00 IST to 9 October, 00:00 IST, using the earliest retained creation timestamps for currently active patients. They are not verified lifetime first-ever generations where older records may have been deleted or migrated.
+
+## Pending Validation
+
+| Item | Status |
+|---|---|
+| Full Summary/Phase historical eligibility | Available evidence supports only the minimum counts shown above |
+| VALD freshness | Withheld pending reconciliation with the existing Slack report's population and date fields |
+| First VALD measurement sync yesterday | Not available |
+
+Missing data does not automatically indicate a service failure. Percentages may not total 100% due to rounding.
