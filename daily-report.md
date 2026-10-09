@@ -33,24 +33,13 @@ The 4,680 patients without a complete assessment include 1,452 with saved progno
 
 ## Summary and Phase Analysis
 
-Coverage across all 7,863 active patients:
-
-| Category | Summary | % | Phase | % |
-|---|---:|---:|---:|---:|
-| Generated data exists | 3,323 | 42.3% | 3,555 | 45.2% |
-| Generated data missing | 4,540 | 57.7% | 4,308 | 54.8% |
-| **Total** | **7,863** | **100%** | **7,863** | **100%** |
-
-The requested condition-met breakdown for the full population is not yet established. The available historical evidence below covers only 25 patients and must not be used as the complete eligibility report.
-
-### Additional eligibility evidence — 25 patients only
-
 | Category | Summary | % | Phase | % |
 |---|---:|---:|---:|---:|
 | Generation condition met; output generated | 22 | 0.3% | 22 | 0.3% |
 | Generation condition met; output missing | 3 | 0.0% | 3 | 0.0% |
+| Waiting for enough recorded activity or the scheduled time | Not available | — | Not available | — |
 
-**Partial history: these are confirmed minimum counts, not totals for all historically eligible patients.** Qualification is based on retained queue and dispatch evidence for the report/VALD thresholds or fallback. Saved output is checked separately and may predate the qualifying event. Three patients represent 0.038% of active patients, displayed as 0.0% after rounding.
+Condition-met figures are confirmed minimums from partial history, not full-population eligibility totals. The supplied snapshot did not include the waiting count under this definition; rerun the updated script to obtain it. Patients without sufficient evidence are excluded rather than classified as waiting. Overall saved-output coverage appears in the first table. Three patients equal 0.038% of active patients, rounded to 0.0%.
 
 ## VALD Connection
 
