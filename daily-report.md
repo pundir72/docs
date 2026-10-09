@@ -1,5 +1,7 @@
 # Stance Daily Report
 
+**9 October 2026, 4:47 PM IST**  
+**Active patients: 7,864**
 
 Includes patient accounts with `isActive = true`. All percentages use 7,864 active patients. Figures reflect the supplied 16:47:15 IST snapshot.
 
@@ -31,16 +33,31 @@ The 4,681 patients without a complete assessment include 1,452 with saved progno
 
 ## Summary and Phase Analysis
 
-Every active patient is checked against the saved-data rule: at least 5 distinct saved reports with content, or 5 distinct saved VALD profile/document references, or a database-confirmed 15-day fallback with activity.
+| Category | Summary | % | Phase | % |
+|---|---:|---:|---:|---:|
+| Generated output exists | 3,323 | 42.3% | 3,555 | 45.2% |
+| Output missing | 4,541 | 57.7% | 4,309 | 54.8% |
+| **Total active patients** | **7,864** | **100%** | **7,864** | **100%** |
+
+### Additional condition breakdown
+
+These rows split the generated and missing totals above; they do not replace them. All percentages use 7,864 active patients.
 
 | Category | Summary | % | Phase | % |
 |---|---:|---:|---:|---:|
-| Generation condition met; output generated | 1,727 | 22.0% | 1,725 | 21.9% |
-| Generation condition met; output missing | 203 | 2.6% | 205 | 2.6% |
-| Saved-data condition not met; fallback not established | 5,934 | 75.5% | 5,934 | 75.5% |
-| **Total** | **7,864** | **100%** | **7,864** | **100%** |
+| Saved-data condition matched; output generated | 1,727 | 22.0% | 1,725 | 21.9% |
+| Saved-data condition matched; output missing | 203 | 2.6% | 205 | 2.6% |
+| Condition not established from saved data; output generated | 1,596 | 20.3% | 1,830 | 23.3% |
+| Condition not established from saved data; output missing | 4,338 | 55.2% | 4,104 | 52.2% |
+| **Total active patients** | **7,864** | **100%** | **7,864** | **100%** |
 
-**1,930 patients meet the saved-data eligibility rule.** This evaluates current saved records, not historical scheduler execution. VALD references are profile/document references, not individual test sessions. The third row includes patients with existing outputs whose current saved data does not establish eligibility; it does not mean all 5,934 are waiting for generation.
+**Condition matched:** At least 5 distinct saved reports with content, or 5 distinct saved VALD profile/document references, or a database-confirmed 15-day fallback with activity. This is a current saved-data check, not a reconstruction of past scheduler decisions.
+
+**Condition not established:** The current records do not establish that rule. This does not mean the patient failed the generation conditions when their output was created. Completed processing can clear activity counters; direct requests and earlier fallback processing can also produce outputs. Individual historical triggers have not been verified.
+
+**How the totals reconcile:** Summary generated is 1,727 + 1,596 = **3,323**. Phase generated is 1,725 + 1,830 = **3,555**. Missing totals are 203 + 4,338 = **4,541** and 205 + 4,104 = **4,309**, respectively.
+
+**Earlier Phase count correction:** The previously reported 1,704 came from the legacy collection. Production writes to `new-patient-phases`, which gives **3,555** for this snapshot. The matched group of 1,725 is only part of that total.
 
 ## VALD Connection
 
