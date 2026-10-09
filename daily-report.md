@@ -1,9 +1,7 @@
 # Stance Daily Report
 
-**9 October 2026, 4:47 PM IST**  
-**Active patients: 7,864**
 
-Includes patient accounts with `isActive = true`. All percentages use 7,864 active patients. Figures reflect the supplied 16:47:15 IST snapshot.
+Includes patient accounts with `isActive = true`. All percentages use 7,864 active patients.
 
 ## Overall Coverage
 
@@ -85,13 +83,5 @@ The subtotal covers only the two categories shown. Overall missing-measurement c
 | Summary | 8 | 0.1% |
 | Phase analysis | 13 | 0.2% |
 
-Counts cover 8 October, 00:00 IST to 9 October, 00:00 IST, using the earliest retained creation timestamps for currently active patients. They are not verified lifetime first-ever generations where older records may have been deleted or migrated.
 
-## Pending Validation
 
-| Item | Status |
-|---|---|
-| VALD freshness | Withheld pending reconciliation with the existing Slack report's population and date fields |
-| First VALD measurement sync yesterday | Not available |
-
-Missing data does not automatically indicate a service failure. Percentages may not total 100% due to rounding.
