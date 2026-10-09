@@ -31,7 +31,19 @@ Of the 46 patients with a complete assessment but no prognosis, 7 have multiple 
 
 The 4,680 patients without a complete assessment include 1,452 with saved prognosis. These are included in the overall prognosis count of 4,589.
 
-## Summary and Phase — Confirmed Generation Conditions
+## Summary and Phase Analysis
+
+Coverage across all 7,863 active patients:
+
+| Category | Summary | % | Phase | % |
+|---|---:|---:|---:|---:|
+| Generated data exists | 3,323 | 42.3% | 3,555 | 45.2% |
+| Generated data missing | 4,540 | 57.7% | 4,308 | 54.8% |
+| **Total** | **7,863** | **100%** | **7,863** | **100%** |
+
+The requested condition-met breakdown for the full population is not yet established. The available historical evidence below covers only 25 patients and must not be used as the complete eligibility report.
+
+### Additional eligibility evidence — 25 patients only
 
 | Category | Summary | % | Phase | % |
 |---|---:|---:|---:|---:|
